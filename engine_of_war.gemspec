@@ -16,4 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = EngineOfWar::VERSION
 
   gem.add_development_dependency "yard"
+  gem.add_development_dependency "RedCloth"
 end
