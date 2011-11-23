@@ -2,11 +2,11 @@
 require File.expand_path('../lib/engine_of_war/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Tammer Saleh"]
-  gem.email         = ["tsaleh@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.authors       = ["Thunderbolt Labs"]
+  gem.email         = ["us@thunderboltlabs.com"]
+  gem.description   = "Semi-static site engine."
+  gem.summary       = "Semi-static site endine based on Padrino"
+  gem.homepage      = "http://thunderboltlabs.com"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "engine_of_war"
   gem.require_paths = ["lib"]
   gem.version       = EngineOfWar::VERSION
+
+  gem.add_development_dependency "yard"
 end
