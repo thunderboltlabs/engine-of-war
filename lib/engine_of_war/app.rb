@@ -9,7 +9,6 @@ class EngineOfWar::App < Sinatra::Base
 
   set :haml,   { :format => :html5 }
   set :scss,   Compass.sass_engine_options
-  # set :root,   File.expand_path(File.dirname(__FILE__) + '/../')
   set(:config) { File.expand_path(root + '/config/') }
 
   def render_page_with_layout(page)

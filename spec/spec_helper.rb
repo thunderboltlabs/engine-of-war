@@ -6,9 +6,7 @@ require "engine_of_war.rb"
 
 Capybara.app = EngineOfWar::App
 
-EngineOfWar::App.set     :views,  "/tmp/engine-#{$$}/views"
-EngineOfWar::App.set     :public, "/tmp/engine-#{$$}/public"
-EngineOfWar::App.set     :config, "/tmp/engine-#{$$}/config"
+EngineOfWar::App.set     :root,  "/tmp/engine-#{$$}"
 EngineOfWar::App.enable  :raise_errors
 EngineOfWar::App.disable :show_exceptions
 
@@ -17,7 +15,7 @@ def create_template(path, content)
 end
 
 def create_asset(path, content)
-  create_file "#{EngineOfWar::App.settings.public}/#{path}", content.unindent
+  create_file "#{EngineOfWar::App.settings.public_folder}/#{path}", content.unindent
 end
 
 def create_config(path, content)
@@ -37,13 +35,13 @@ end
 
 def create_dirs
   FileUtils.mkdir_p(EngineOfWar::App.settings.views)
-  FileUtils.mkdir_p(EngineOfWar::App.settings.public)
+  FileUtils.mkdir_p(EngineOfWar::App.settings.public_folder)
   FileUtils.mkdir_p(EngineOfWar::App.settings.config)
 end
 
 def remove_dirs
   FileUtils.rm_rf(EngineOfWar::App.settings.views)
-  FileUtils.rm_rf(EngineOfWar::App.settings.public)
+  FileUtils.rm_rf(EngineOfWar::App.settings.public_folder)
   FileUtils.rm_rf(EngineOfWar::App.settings.config)
 end
 

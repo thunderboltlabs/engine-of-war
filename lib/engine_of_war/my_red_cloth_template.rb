@@ -58,7 +58,7 @@ class EngineOfWar::RedClothTemplate < Tilt::RedClothTemplate
   end
 
   def image_basedir(basename)
-    File.join(EngineOfWar::App.settings.public, BASE_IMAGE_URL, basename)
+    File.join(EngineOfWar::App.settings.public_folder, BASE_IMAGE_URL, basename)
   end
 
   def meta_for_image(basename)

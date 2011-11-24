@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = EngineOfWar::VERSION
 
-  gem.add_dependency 'sinatra'
+  gem.add_dependency 'sinatra', ">= 1.3"
   gem.add_dependency "compass"
   gem.add_dependency "padrino"
   gem.add_dependency "active_support"
