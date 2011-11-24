@@ -15,6 +15,20 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = EngineOfWar::VERSION
 
+  gem.add_dependency 'sinatra'
+  gem.add_dependency "compass"
+  gem.add_dependency "padrino"
+  gem.add_dependency "active_support"
+  gem.add_dependency "builder"
+  gem.add_dependency 'haml'
+  gem.add_dependency 'sass', ">= 3.1.7"
+  gem.add_dependency "RedCloth"
+  gem.add_dependency "coffee-script"
+
   gem.add_development_dependency "yard"
   gem.add_development_dependency "RedCloth"
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "capybara"
+
 end
