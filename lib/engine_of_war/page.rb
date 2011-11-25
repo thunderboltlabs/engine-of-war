@@ -1,10 +1,11 @@
 class EngineOfWar::Page
   YAML_REGEXP = /^(---\s*\n.*?\n?)^(---\s*$\n?)/m
 
-  attr_reader :request_path, :views_root, :meta, :source
+  attr_reader :request_path, :views_root, :root, :meta, :source
 
   def initialize(request_path)
     @views_root    = EngineOfWar::App.settings.views
+    @root          = EngineOfWar::App.settings.root
     @request_path  = normalize_path(request_path)
     @entire_source = File.read(template_path)
     @meta, @source = split_body
@@ -23,8 +24,11 @@ class EngineOfWar::Page
   end
 
   def github_edit_url
-    relative_template_path = template_path.sub(views_root, "views")
-    "https://github.com/thunderboltlabs/thunderboltlabs/edit/master/#{relative_template_path}"
+    snippet = EngineOfWar::App.settings.github_info
+    if snippet.blank?
+      raise RuntimeError, "We don't know your github info.  Fix with: EngineOfWar::App.set :github_info, 'foo/bar'"
+    end
+    "https://github.com/#{snippet}/edit/master#{template_path.sub(root, '')}"
   end
 
   private

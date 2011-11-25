@@ -25,7 +25,20 @@ describe "Given a textile file without frontmatter, Page" do
   subject { @page }
 
   its(:engine) { should == :textile }
-  its(:github_edit_url) { should == "https://github.com/thunderboltlabs/thunderboltlabs/edit/master/views/file.html.textile" }
+
+  context "when github is configured" do
+    before { EngineOfWar::App.set :github_info, "foo/bar" }
+    its(:github_edit_url) do 
+      should == "https://github.com/foo/bar/edit/master/views/file.html.textile" 
+    end
+  end
+
+  context "when github is not configured" do
+    before { EngineOfWar::App.set :github_info, nil }
+    it ".github_edit_url should raise" do
+      lambda { subject.github_edit_url }.should raise_error
+    end
+  end
 end
 
 describe "Given a file with front matter" do
@@ -49,7 +62,6 @@ describe "Given a file with front matter" do
     its(:url)    { should == "/file" }
     its(:source) { should match("%h1 This is a post.") }
     its(:source) { should_not match("Title for this post") }
-    its(:github_edit_url) { should == "https://github.com/thunderboltlabs/thunderboltlabs/edit/master/views/file.html.haml" }
 
     describe "#meta" do
       before { @out = @page.meta }
@@ -71,7 +83,12 @@ describe "Given a file with front matter" do
     its(:url)    { should == "/file" }
     its(:source) { should match("%h1 This is a post.") }
     its(:source) { should_not match("Title for this post") }
-    its(:github_edit_url) { should == "https://github.com/thunderboltlabs/thunderboltlabs/edit/master/views/file.html.haml" }
+    context "when github is configured" do
+      before { EngineOfWar::App.set :github_info, "foo/bar" }
+      its(:github_edit_url) do 
+        should == "https://github.com/foo/bar/edit/master/views/file.html.haml" 
+      end
+    end
   end
 end
 

@@ -7,12 +7,13 @@ class EngineOfWar::App < Sinatra::Base
     config.sass_dir = 'views/css'
   end
 
-  set :haml,   { :format => :html5 }
-  set :scss,   Compass.sass_engine_options
-  set(:config) { File.expand_path(root + '/config/') }
+  set :haml,        format: :html5
+  set :scss,        Compass.sass_engine_options
+  set :github_info, nil
+  set(:config)      { File.expand_path(root + '/config/') }
 
   def render_page_with_layout(page)
-    render_page(page, :layout => "layouts/#{page.layout}", :layout_engine => :haml)
+    render_page(page, layout: "layouts/#{page.layout}", layout_engine: :haml)
   end
 
   get "/posts.atom" do
