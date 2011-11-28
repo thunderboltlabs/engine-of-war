@@ -60,10 +60,5 @@ RSpec.configure do |config|
     remove_dirs
     create_dirs
   end
-
-  # config.after(:each) do
-  #   remove_dirs
-  #   create_dirs
-  # end
 end
 

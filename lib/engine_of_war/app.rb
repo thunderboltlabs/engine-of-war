@@ -16,6 +16,13 @@ class EngineOfWar::App < Sinatra::Base
     render_page(page, layout: "layouts/#{page.layout}", layout_engine: :haml)
   end
 
+  error(500) { haml :"500" }
+  error(404) { haml :"404" }
+
+  get "/raise_exception_for_testing" do
+    raise RuntimeError, "Oh, holy crap!"
+  end
+
   get "/posts.atom" do
     content_type :rss
     builder do |xml|
