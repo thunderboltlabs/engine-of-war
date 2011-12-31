@@ -24,6 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'sass', ">= 3.1.7"
   gem.add_dependency "RedCloth"
   gem.add_dependency "coffee-script"
+  gem.add_dependency "redcarpet"
 
   gem.add_development_dependency "yard"
   gem.add_development_dependency "RedCloth"
