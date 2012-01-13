@@ -44,6 +44,18 @@ describe "given a layout" do
       end
     end
   end
+
+  describe "and a markdown template" do
+    before { create_template("bar.html.markdown", "# Markdown") }
+
+    context "on GET to /bar" do
+      before { visit "/bar" }
+
+      it "renders the template" do
+        page.should have_selector('h1:contains("Markdown")')
+      end
+    end
+  end
 end
 
 

@@ -15,7 +15,9 @@ module EngineOfWar; end
 
 require 'engine_of_war/version'
 require 'engine_of_war/extensions/string'
-require 'engine_of_war/my_red_cloth_template'
+require 'engine_of_war/template_engines/filters'
+require 'engine_of_war/template_engines/textile'
+require 'engine_of_war/template_engines/markdown'
 require 'engine_of_war/layout'
 require 'engine_of_war/page'
 require 'engine_of_war/page_collection'

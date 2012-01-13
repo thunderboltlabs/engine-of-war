@@ -71,3 +71,21 @@ describe "given a textile template with an image link " do
   end
 end
 
+describe "given a textile template with an image link " do
+  before { create_template("layouts/application.html.haml", "%h1 Layout\n= yield") }
+
+  describe "and an image link" do
+    before do
+      create_asset("images/file/original.jpg", "image data") 
+      create_template("posts/bar.html.markdown", "# Title\n%file.jpg%\n") 
+    end
+
+    context "the rendered page" do
+      before { visit "/posts/bar" }
+      subject { page }
+
+      it { should have_selector('img[src="/images/file/original.jpg"]') }
+    end
+  end
+end
+
