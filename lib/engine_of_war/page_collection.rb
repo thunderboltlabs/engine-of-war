@@ -1,3 +1,5 @@
+require 'date'
+
 class EngineOfWar::PageCollection < Array
   attr_accessor :collection_root
 

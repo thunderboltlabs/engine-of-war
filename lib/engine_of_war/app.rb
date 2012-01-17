@@ -67,6 +67,7 @@ class EngineOfWar::App < Sinatra::Base
       opts[:locals] ||= {}
       opts[:locals][:meta] = page.meta
       opts[:locals][:page] = page
+      puts "Rendering #{page.request_path} as #{page.engine}"
       send(page.engine, page.source, opts)
     end
  
