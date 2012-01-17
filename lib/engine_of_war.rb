@@ -9,6 +9,7 @@ require 'padrino-core/application/rendering'
 require 'padrino-helpers'
 require 'active_support/hash_with_indifferent_access'
 require 'active_support/core_ext/object/blank'
+require 'date'
 require 'json'
 
 module EngineOfWar; end
