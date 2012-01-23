@@ -8,9 +8,10 @@ class EngineOfWar::App < Sinatra::Base
   end
 
   disable :show_exceptions
-  set :haml,            format: :html5
-  set :scss,            Compass.sass_engine_options
-  set :github_info,     nil
+  set :haml,        format: :html5
+  set :scss,        Compass.sass_engine_options
+  set :github_info, nil
+  set :site_title,  nil
   set :config do
     File.expand_path(root + '/config/')
   end
@@ -32,7 +33,7 @@ class EngineOfWar::App < Sinatra::Base
       xml.instruct! :xml, :version => '1.0'
       xml.rss :version => "2.0" do
         xml.channel do
-          xml.title "Thunderbolt Labs"
+          xml.title EngineOfWar::App.settings.site_title
           xml.link "http://#{request.host}"
 
           collection("posts").each do |post|
@@ -67,7 +68,6 @@ class EngineOfWar::App < Sinatra::Base
       opts[:locals] ||= {}
       opts[:locals][:meta] = page.meta
       opts[:locals][:page] = page
-      puts "Rendering #{page.request_path} as #{page.engine}"
       send(page.engine, page.source, opts)
     end
  

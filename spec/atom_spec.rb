@@ -4,6 +4,7 @@ require "spec_helper"
 
 describe "Given some blog posts" do
   before do
+    Capybara.app.settings.site_title = "The Great Bambino"
     create_template("posts/a_post.html.haml", 
                     <<-EOF)
                       ---
@@ -50,6 +51,11 @@ describe "Given some blog posts" do
     it "renders xml for the second post" do
       page.should have_selector('rss channel item title:contains("Second post")')
       page.source.should include("http://www.example.com/posts/another_post")
+    end
+
+    it "includes the site title" do
+      page.should have_selector('rss channel title:contains("The Great Bambino")')
+
     end
   end
 end
