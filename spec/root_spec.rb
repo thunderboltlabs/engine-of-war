@@ -2,7 +2,14 @@ require "spec_helper"
 
 describe "given a layout" do
   before do
-    create_template("layouts/application.html.haml", "%h1 Layout\n= yield")
+    create_template("layouts/application.html.haml", <<-EOP)
+                    %html
+                      %head
+                      %body
+                        %h1 Layout
+                        = yield
+                    EOP
+
   end
 
   describe "and a haml template named index.html.haml" do
@@ -17,6 +24,19 @@ describe "given a layout" do
       
       it "renders the layout" do
         page.should have_selector('h1:contains("Layout")')
+      end
+    end
+
+    context "with google analytics configured" do
+      before { Capybara.app.google_analytics_key = "UA-xxxxxx-x" }
+
+      context "on GET to /" do
+        before { visit "/" }
+
+        it "renders the google analytics JS" do
+          page.should have_selector('script[type="text/javascript"]:contains("google-analytics.com")')
+          page.should have_selector('script[type="text/javascript"]:contains("UA-xxxxxx-x")')
+        end
       end
     end
   end

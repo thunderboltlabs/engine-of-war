@@ -5,21 +5,18 @@ require 'capybara/rspec'
 require "engine_of_war.rb"
 
 Capybara.app = EngineOfWar::App
-
-EngineOfWar::App.set     :root,  "/tmp/engine-#{$$}"
-EngineOfWar::App.enable  :raise_errors
-EngineOfWar::App.disable :show_exceptions
+Capybara.app.set :root,  "/tmp/engine-#{$$}"
 
 def create_template(path, content)
-  create_file "#{EngineOfWar::App.settings.views}/#{path}", content.unindent
+  create_file "#{Capybara.app.settings.views}/#{path}", content.unindent
 end
 
 def create_asset(path, content)
-  create_file "#{EngineOfWar::App.settings.public_folder}/#{path}", content.unindent
+  create_file "#{Capybara.app.settings.public_folder}/#{path}", content.unindent
 end
 
 def create_config(path, content)
-  create_file "#{EngineOfWar::App.settings.config}/#{path}", content.unindent
+  create_file "#{Capybara.app.settings.config}/#{path}", content.unindent
 end
 
 def create_file(path, content)
@@ -30,19 +27,19 @@ def create_file(path, content)
 end
 
 def show_files
-  pp Dir[File.join(File.dirname(EngineOfWar::App.settings.views), "**", "*")]
+  pp Dir[File.join(File.dirname(Capybara.app.settings.views), "**", "*")]
 end
 
 def create_dirs
-  FileUtils.mkdir_p(EngineOfWar::App.settings.views)
-  FileUtils.mkdir_p(EngineOfWar::App.settings.public_folder)
-  FileUtils.mkdir_p(EngineOfWar::App.settings.config)
+  FileUtils.mkdir_p(Capybara.app.settings.views)
+  FileUtils.mkdir_p(Capybara.app.settings.public_folder)
+  FileUtils.mkdir_p(Capybara.app.settings.config)
 end
 
 def remove_dirs
-  FileUtils.rm_rf(EngineOfWar::App.settings.views)
-  FileUtils.rm_rf(EngineOfWar::App.settings.public_folder)
-  FileUtils.rm_rf(EngineOfWar::App.settings.config)
+  FileUtils.rm_rf(Capybara.app.settings.views)
+  FileUtils.rm_rf(Capybara.app.settings.public_folder)
+  FileUtils.rm_rf(Capybara.app.settings.config)
 end
 
 RSpec.configure do |config|

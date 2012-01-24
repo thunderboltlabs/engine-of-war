@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe "Given some blog posts" do
   before do
-    Capybara.app.settings.site_title = "The Great Bambino"
+    Capybara.app.site_title = "The Great Bambino"
     create_template("posts/a_post.html.haml", 
                     <<-EOF)
                       ---

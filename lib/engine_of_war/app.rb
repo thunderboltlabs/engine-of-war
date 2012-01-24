@@ -8,16 +8,35 @@ class EngineOfWar::App < Sinatra::Base
   end
 
   disable :show_exceptions
-  set :haml,        format: :html5
-  set :scss,        Compass.sass_engine_options
-  set :github_info, nil
-  set :site_title,  nil
+  set :haml,                  format: :html5
+  set :scss,                  Compass.sass_engine_options
+  set :github_info,           nil
+  set :site_title,            nil
+  set :google_analytics_key,  nil
+
   set :config do
     File.expand_path(root + '/config/')
   end
 
+  def self.google_analytics_key=(key)
+    use Rack::GoogleAnalytics, :tracker => key
+  end
+
   def render_page_with_layout(page)
     render_page(page, layout: "layouts/#{page.layout}", layout_engine: :haml)
+  end
+
+  helpers do
+    def render_page(page, opts = {})
+      opts[:locals] ||= {}
+      opts[:locals][:meta] = page.meta
+      opts[:locals][:page] = page
+      send(page.engine, page.source, opts)
+    end
+ 
+    def collection(dir)
+      EngineOfWar::PageCollection.new(dir)
+    end
   end
 
   error(500) { haml :"500" }
@@ -61,18 +80,5 @@ class EngineOfWar::App < Sinatra::Base
   get "/*.*" do |name, ext|
     content_type ext
     render :"#{name}", :layout => false
-  end
-
-  helpers do
-    def render_page(page, opts = {})
-      opts[:locals] ||= {}
-      opts[:locals][:meta] = page.meta
-      opts[:locals][:page] = page
-      send(page.engine, page.source, opts)
-    end
- 
-    def collection(dir)
-      EngineOfWar::PageCollection.new(dir)
-    end
   end
 end

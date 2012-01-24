@@ -27,14 +27,14 @@ describe "Given a textile file without frontmatter, Page" do
   its(:engine) { should == :textile }
 
   context "when github is configured" do
-    before { EngineOfWar::App.set :github_info, "foo/bar" }
+    before { Capybara.app.github_info = "foo/bar" }
     its(:github_edit_url) do 
       should == "https://github.com/foo/bar/edit/master/views/file.html.textile" 
     end
   end
 
   context "when github is not configured" do
-    before { EngineOfWar::App.set :github_info, nil }
+    before { Capybara.app.github_info = nil }
     it ".github_edit_url should raise" do
       lambda { subject.github_edit_url }.should raise_error
     end
@@ -84,7 +84,7 @@ describe "Given a file with front matter" do
     its(:source) { should match("%h1 This is a post.") }
     its(:source) { should_not match("Title for this post") }
     context "when github is configured" do
-      before { EngineOfWar::App.set :github_info, "foo/bar" }
+      before { Capybara.app.github_info = "foo/bar" }
       its(:github_edit_url) do 
         should == "https://github.com/foo/bar/edit/master/views/file.html.haml" 
       end

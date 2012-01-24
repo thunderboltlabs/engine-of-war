@@ -1,8 +1,15 @@
 require "spec_helper"
 
 describe "when not raising errors" do
-  before { Capybara.app.disable :raise_errors }
-  after  { Capybara.app.enable :raise_errors }
+  before do
+    Capybara.app.disable :raise_errors
+    Capybara.app.disable :show_exceptions
+  end
+
+  after do
+    Capybara.app.enable :raise_errors 
+    Capybara.app.enable :show_exceptions
+  end
 
   describe "given a /public/500.html page" do
     before { create_template("500.haml", "Bam") }
