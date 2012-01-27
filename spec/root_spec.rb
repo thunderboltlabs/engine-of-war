@@ -39,6 +39,19 @@ describe "given a layout" do
         end
       end
     end
+
+    context "with gauges configured" do
+      before { Capybara.app.gauges_key = "gauges_key" }
+
+      context "on GET to /" do
+        before { visit "/" }
+
+        it "renders the google analytics JS" do
+          page.should have_selector('script[type="text/javascript"]:contains("gaug.es")')
+          page.should have_selector('script[type="text/javascript"]:contains("gauges_key")')
+        end
+      end
+    end
   end
 end
 

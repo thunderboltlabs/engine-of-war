@@ -26,6 +26,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "rdiscount"
   gem.add_dependency "coffee-script"
   gem.add_dependency "rack-google-analytics"
+  gem.add_dependency "rack-gauges"
 
   gem.add_development_dependency "yard"
   gem.add_development_dependency "rake"

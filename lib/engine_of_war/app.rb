@@ -12,14 +12,17 @@ class EngineOfWar::App < Sinatra::Base
   set :scss,                  Compass.sass_engine_options
   set :github_info,           nil
   set :site_title,            nil
-  set :google_analytics_key,  nil
 
   set :config do
     File.expand_path(root + '/config/')
   end
 
   def self.google_analytics_key=(key)
-    use Rack::GoogleAnalytics, :tracker => key
+    use Rack::GoogleAnalytics, tracker: key
+  end
+
+  def self.gauges_key=(key)
+    use Rack::Gauges, tracker: key
   end
 
   def render_page_with_layout(page)

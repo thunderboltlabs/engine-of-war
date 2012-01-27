@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'rack/google-analytics'
+require 'rack/gauges'
 require 'compass'
 require "builder"
 require 'haml'
