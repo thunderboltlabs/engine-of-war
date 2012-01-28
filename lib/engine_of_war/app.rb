@@ -1,17 +1,17 @@
 class EngineOfWar::App < Sinatra::Base
   register Padrino::Rendering
   register Padrino::Helpers
-  
+
   Compass.configuration do |config|
     config.project_path = File.dirname(__FILE__)
     config.sass_dir = 'views/css'
   end
 
   disable :show_exceptions
-  set :haml,                  format: :html5
-  set :scss,                  Compass.sass_engine_options
-  set :github_info,           nil
-  set :site_title,            nil
+  set :haml,        format: :html5
+  set :scss,        Compass.sass_engine_options
+  set :github_info, nil
+  set :site_title,  nil
 
   set :config do
     File.expand_path(root + '/config/')
