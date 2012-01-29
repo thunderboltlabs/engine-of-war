@@ -1,11 +1,7 @@
 common: &default_settings
   monitor_mode: true
-  developer_mode: false
   log_level: info
   log_file_path: STDOUT
-  ssl: false
-  apdex_t: 0.25
-  capture_params: false
   transaction_tracer:
     enabled: false
   error_collector:
@@ -15,7 +11,7 @@ development:
   monitor_mode: false
 test:
   <<: *default_settings
-  monitor_mode: false
+  monitor_mode: true
 production:
   <<: *default_settings
   monitor_mode: true

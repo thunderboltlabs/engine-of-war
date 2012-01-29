@@ -1,11 +1,13 @@
 require "bundler/setup"
 require 'rspec'
 require 'capybara/rspec'
+require 'fakeweb'
 
 require "engine_of_war.rb"
 
 Capybara.app = EngineOfWar::App
 Capybara.app.set :root,  "/tmp/engine-#{$$}"
+FakeWeb.allow_net_connect = false
 
 def create_template(path, content)
   create_file "#{Capybara.app.settings.views}/#{path}", content.unindent

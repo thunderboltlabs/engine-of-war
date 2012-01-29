@@ -26,24 +26,32 @@ class EngineOfWar::App < Sinatra::Base
   end
 
   def self.newrelic_key=(key)
-    name = settings.site_title
-    name << " (#{settings.environment})" unless settings.environment == "production"
-    filename = File.join(File.dirname(__FILE__), "../../config/newrelic.yml")
+    name = settings.site_title || "Unknown"
+    unless settings.environment == "production"
+      name << " (#{settings.environment})"
+    end
+    filename = "#{File.dirname(__FILE__)}/../../config/newrelic.yml"
 
-    ENV['NEWRELIC_APP_NAME']     = name
-    ENV['NEW_RELIC_LICENSE_KEY'] = key
-    ENV['NRCONFIG']              = filename
-
-    puts "Loading NewRelic for #{name}"
+    puts "Loading NewRelic for #{name} from #{filename}"
 
     raise "Can't find #{filename}" unless File.file?(filename)
 
     require 'newrelic_rpm'
     require 'rpm_contrib'
+    NewRelic::Agent.manual_start(monitor_mode: true, 
+                                 license_key: key,
+                                 app_name: name,
+                                 monitor_mode: true,
+                                 log_level: "info",
+                                 log_file_path: "STDOUT",
+                                 transaction_tracer: { enabled: false },
+                                 error_collector: { enabled: true })
   end
 
   def render_page_with_layout(page)
-    render_page(page, layout: "layouts/#{page.layout}", layout_engine: :haml)
+    render_page(page, 
+                layout: "layouts/#{page.layout}", 
+                layout_engine: :haml)
   end
 
   helpers do
