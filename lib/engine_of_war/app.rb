@@ -25,6 +25,18 @@ class EngineOfWar::App < Sinatra::Base
     use Rack::Gauges, tracker: key
   end
 
+  def self.newrelic_key=(key)
+    name = settings.site_title
+    name << " (#{ENV['RACK_ENV']})" if ENV['RACK_ENV'] != "production"
+
+    ENV['NEWRELIC_APP_NAME'      = settings.site_title
+    ENV['NEW_RELIC_LICENSE_KEY'] = key
+    ENV['NRCONFIG']              = File.join(File.dirname(__FILE__), "../../config/newrelic.yml")
+
+    require 'newrelic_rpm'
+    require 'rpm_contrib'
+  end
+
   def render_page_with_layout(page)
     render_page(page, layout: "layouts/#{page.layout}", layout_engine: :haml)
   end
