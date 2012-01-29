@@ -26,23 +26,25 @@ class EngineOfWar::App < Sinatra::Base
   end
 
   def self.newrelic_key=(key)
-    name = settings.site_title || "Unknown"
-    unless settings.environment == "production"
-      name << " (#{settings.environment})"
+    unless ENV["RACK_ENV"] == "development"
+      name = settings.site_title || "Unknown"
+      unless settings.environment == "production"
+        name << " (#{ENV["RACK_ENV"]})"
+      end
+
+      puts "Loading NewRelic for #{name}"
+
+      require 'newrelic_rpm'
+      require 'rpm_contrib'
+      NewRelic::Agent.manual_start(monitor_mode: true, 
+                                   license_key: key,
+                                   app_name: name,
+                                   monitor_mode: true,
+                                   log_level: "info",
+                                   log_file_path: "STDOUT",
+                                   transaction_tracer: { enabled: false },
+                                   error_collector: { enabled: true })
     end
-
-    puts "Loading NewRelic for #{name}"
-
-    require 'newrelic_rpm'
-    require 'rpm_contrib'
-    NewRelic::Agent.manual_start(monitor_mode: true, 
-                                 license_key: key,
-                                 app_name: name,
-                                 monitor_mode: true,
-                                 log_level: "info",
-                                 log_file_path: "STDOUT",
-                                 transaction_tracer: { enabled: false },
-                                 error_collector: { enabled: true })
   end
 
   def render_page_with_layout(page)
