@@ -29,7 +29,7 @@ class EngineOfWar::App < Sinatra::Base
     name = settings.site_title
     name << " (#{ENV['RACK_ENV']})" if ENV['RACK_ENV'] != "production"
 
-    ENV['NEWRELIC_APP_NAME'      = settings.site_title
+    ENV['NEWRELIC_APP_NAME']     = settings.site_title
     ENV['NEW_RELIC_LICENSE_KEY'] = key
     ENV['NRCONFIG']              = File.join(File.dirname(__FILE__), "../../config/newrelic.yml")
 
