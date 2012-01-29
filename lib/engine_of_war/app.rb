@@ -30,11 +30,8 @@ class EngineOfWar::App < Sinatra::Base
     unless settings.environment == "production"
       name << " (#{settings.environment})"
     end
-    filename = "#{File.dirname(__FILE__)}/../../config/newrelic.yml"
 
-    puts "Loading NewRelic for #{name} from #{filename}"
-
-    raise "Can't find #{filename}" unless File.file?(filename)
+    puts "Loading NewRelic for #{name}"
 
     require 'newrelic_rpm'
     require 'rpm_contrib'
