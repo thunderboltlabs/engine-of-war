@@ -28,10 +28,14 @@ class EngineOfWar::App < Sinatra::Base
   def self.newrelic_key=(key)
     name = settings.site_title
     name << " (#{settings.environment})" unless settings.environment == "production"
+    filename = File.join(File.dirname(__FILE__), "../../config/newrelic.yml")
 
+    puts "Loading NewRelic..."
     ENV['NEWRELIC_APP_NAME']     = settings.site_title
     ENV['NEW_RELIC_LICENSE_KEY'] = key
-    ENV['NRCONFIG']              = File.join(File.dirname(__FILE__), "../../config/newrelic.yml")
+    ENV['NRCONFIG']              = filename
+
+    raise "Can't find #{filename}" unless File.file?(filename)
 
     require 'newrelic_rpm'
     require 'rpm_contrib'
