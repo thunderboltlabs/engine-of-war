@@ -28,7 +28,7 @@ class EngineOfWar::App < Sinatra::Base
   def self.newrelic_key=(key)
     unless ENV["RACK_ENV"] == "development"
       name = settings.site_title || "Unknown"
-      unless settings.environment == "production"
+      unless ENV["RACK_ENV"] == "production"
         name << " (#{ENV["RACK_ENV"]})"
       end
 
