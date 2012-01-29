@@ -30,10 +30,11 @@ class EngineOfWar::App < Sinatra::Base
     name << " (#{settings.environment})" unless settings.environment == "production"
     filename = File.join(File.dirname(__FILE__), "../../config/newrelic.yml")
 
-    puts "Loading NewRelic..."
-    ENV['NEWRELIC_APP_NAME']     = settings.site_title
+    ENV['NEWRELIC_APP_NAME']     = name
     ENV['NEW_RELIC_LICENSE_KEY'] = key
     ENV['NRCONFIG']              = filename
+
+    puts "Loading NewRelic for #{name}"
 
     raise "Can't find #{filename}" unless File.file?(filename)
 
