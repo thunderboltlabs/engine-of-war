@@ -13,6 +13,7 @@ require 'active_support/hash_with_indifferent_access'
 require 'active_support/core_ext/object/blank'
 require 'date'
 require 'json'
+require 'deep_struct'
 
 module EngineOfWar; end
 

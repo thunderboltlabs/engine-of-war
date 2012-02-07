@@ -29,6 +29,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "rack-gauges"
   gem.add_dependency 'rpm_contrib'
   gem.add_dependency 'newrelic_rpm'
+  gem.add_dependency 'deep_struct', ">= 1.1.0"
 
   gem.add_development_dependency "yard"
   gem.add_development_dependency "rake"

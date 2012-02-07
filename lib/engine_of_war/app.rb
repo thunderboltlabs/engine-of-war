@@ -13,8 +13,8 @@ class EngineOfWar::App < Sinatra::Base
   set :github_info, nil
   set :site_title,  nil
 
-  set :config do
-    File.expand_path(root + '/config/')
+  set :data_root do
+    File.expand_path(root + '/data/')
   end
 
   def self.google_analytics_key=(key)
@@ -63,6 +63,10 @@ class EngineOfWar::App < Sinatra::Base
  
     def collection(dir)
       EngineOfWar::PageCollection.new(dir)
+    end
+
+    def data(file)
+      DeepStruct.from_file(File.join(settings.data_root, file))
     end
   end
 
