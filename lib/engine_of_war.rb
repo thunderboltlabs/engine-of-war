@@ -24,6 +24,5 @@ require 'engine_of_war/template_engines/markdown'
 require 'engine_of_war/layout'
 require 'engine_of_war/page'
 require 'engine_of_war/page_collection'
-require 'engine_of_war/recommendation'
 require 'engine_of_war/app'
 
