@@ -11,7 +11,6 @@ class EngineOfWar::App < Sinatra::Base
   set :haml,        format: :html5
   set :scss,        Compass.sass_engine_options
   set :github_info, nil
-  set :site_title,  nil
 
   set :data_root do
     File.expand_path(root + '/data/')
@@ -25,26 +24,31 @@ class EngineOfWar::App < Sinatra::Base
     use Rack::Gauges, tracker: key
   end
 
+  def self.site_title=(title)
+    @site_title = title
+    @site_title << " (#{ENV["RACK_ENV"]})" unless ENV["RACK_ENV"] == "production"
+  end
+
+  def self.site_title
+    @site_title
+  end
+
   def self.newrelic_key=(key)
-    unless ENV["RACK_ENV"] == "development"
-      name = settings.site_title || "Unknown"
-      unless ENV["RACK_ENV"] == "production"
-        name << " (#{ENV["RACK_ENV"]})"
-      end
+    load_newrelic(key, name) unless ENV["RACK_ENV"] == "development" or ENV["RACK_ENV"].nil?
+  end
 
-      puts "Loading NewRelic for #{name}"
-
-      require 'newrelic_rpm'
-      require 'rpm_contrib'
-      NewRelic::Agent.manual_start(monitor_mode: true, 
-                                   license_key: key,
-                                   app_name: name,
-                                   monitor_mode: true,
-                                   log_level: "info",
-                                   log_file_path: "STDOUT",
-                                   transaction_tracer: { enabled: false },
-                                   error_collector: { enabled: true })
-    end
+  def load_newrelic(key, name)
+    puts "Loading NewRelic for #{name}"
+    require 'newrelic_rpm'
+    require 'rpm_contrib'
+    NewRelic::Agent.manual_start(monitor_mode: true, 
+                                 license_key: key,
+                                 app_name: name,
+                                 monitor_mode: true,
+                                 log_level: "info",
+                                 log_file_path: "STDOUT",
+                                 transaction_tracer: { enabled: false },
+                                 error_collector: { enabled: true })
   end
 
   def render_page_with_layout(page)
@@ -77,7 +81,7 @@ class EngineOfWar::App < Sinatra::Base
     raise RuntimeError, "Oh, holy crap!"
   end
 
-  get "/posts.atom" do
+  get "/*.atom" do |collection|
     content_type :rss
     builder do |xml|
       xml.instruct! :xml, :version => '1.0'
@@ -86,13 +90,13 @@ class EngineOfWar::App < Sinatra::Base
           xml.title EngineOfWar::App.settings.site_title
           xml.link "http://#{request.host}"
 
-          collection("posts").each do |post|
+          collection(collection).each do |page|
             xml.item do
-              xml.title post.meta[:title]
-              xml.link "http://#{request.host}#{post.url}"
-              xml.description render_page(post)
-              xml.pubDate post.meta[:date].rfc822
-              xml.guid "http://#{request.host}#{post.url}"
+              xml.title page.meta[:title]
+              xml.link "http://#{request.host}#{page.url}"
+              xml.description render_page(page)
+              xml.pubDate page.meta[:date].rfc822
+              xml.guid "http://#{request.host}#{page.url}"
             end
           end
         end
