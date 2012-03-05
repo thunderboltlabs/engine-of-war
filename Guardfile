@@ -8,6 +8,7 @@ guard 'rspec', :version => 2, :cli => "--backtrace" do
   watch(%r{^.rspec$})           { "spec" }
   watch(%r{^config/.*$})        { "spec" }
   watch(%r{^lib/(.+)\.rb$})     { "spec" }
+  watch('Gemfile.lock')         { "spec" }
 end
 
 guard 'bundler' do

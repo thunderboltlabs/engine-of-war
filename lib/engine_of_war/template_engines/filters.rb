@@ -1,7 +1,7 @@
 module EngineOfWar::TemplateEngines
   module Filters
     BASE_IMAGE_URL = "/images"
-    include Padrino::Helpers::TagHelpers
+    # include Padrino::Helpers::TagHelpers
 
     def code_filter(txt)
       txt.gsub(/@@@ *(\w*)\r?\n? *(.+?)\r?\n?@@@/m) do
