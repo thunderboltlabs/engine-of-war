@@ -77,10 +77,6 @@ class EngineOfWar::App < Sinatra::Base
   error(500) { haml :"500" }
   error(404) { haml :"404" }
 
-  get "/raise_exception_for_testing" do
-    raise RuntimeError, "Oh, holy crap!"
-  end
-
   get "/*.atom" do |collection|
     content_type :rss
     builder do |xml|

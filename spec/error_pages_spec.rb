@@ -12,10 +12,13 @@ describe "when not raising errors" do
   end
 
   describe "given a /public/500.html page" do
-    before { create_template("500.haml", "Bam") }
+    before do
+      create_template("raise.html.haml", ".h1= raise RuntimeError")
+      create_template("500.haml", "Bam")
+    end
 
     it "renders the page when there's an error" do
-      visit "/raise_exception_for_testing"
+      visit "/raise"
       page.should have_selector('body p:contains("Bam")')
     end
   end
