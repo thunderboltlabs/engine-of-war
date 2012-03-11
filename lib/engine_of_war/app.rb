@@ -1,6 +1,6 @@
 class EngineOfWar::App < Sinatra::Base
-  # register Padrino::Rendering
-  # register Padrino::Helpers
+  register Padrino::Rendering
+  register Padrino::Helpers
 
   Compass.configuration do |config|
     config.project_path = File.dirname(__FILE__)

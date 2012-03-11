@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'sinatra', ">= 1.3"
   gem.add_dependency "compass"
-  #gem.add_dependency "padrino"
+  gem.add_dependency "padrino"
   gem.add_dependency "active_support"
   gem.add_dependency "builder"
   gem.add_dependency 'haml'

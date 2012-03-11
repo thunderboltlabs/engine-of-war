@@ -41,7 +41,8 @@ module EngineOfWar::TemplateEngines
 
       href = meta[:source_url]
 
-      img_tag = content_tag :img, "", image_options
+      options = image_options.map {|k,v| "#{k}='#{v}'"}.join(' ')
+      img_tag = "<img #{options}>"
       if href
         return "<a href='#{href}'>#{img_tag}</a>"
       else
