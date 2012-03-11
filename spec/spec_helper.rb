@@ -3,12 +3,13 @@ require 'rspec'
 require 'capybara/rspec'
 require 'fakeweb'
 
+ENV["RACK_ENV"] = "test"
+
 require "engine_of_war.rb"
 
 Capybara.app = EngineOfWar::App
-Capybara.app.set :root,  "/tmp/engine-#{$$}"
-Capybara.app.enable :raise_errors 
-Capybara.app.enable :show_exceptions
+Capybara.app.set :root, "/tmp/engine-#{$$}"
+
 FakeWeb.allow_net_connect = false
 
 def create_template(path, content)
@@ -31,17 +32,24 @@ def create_file(path, content)
 end
 
 def show_files
-  pp Dir[File.join(File.dirname(Capybara.app.settings.views), "**", "*")]
+  pp Dir[File.join(Capybara.app.settings.root, "**", "*")]
 end
 
 def create_dirs
-  FileUtils.mkdir_p(Capybara.app.settings.views)
-  FileUtils.mkdir_p(Capybara.app.settings.public_folder)
+  mkdir(Capybara.app.settings.views)
+  mkdir(Capybara.app.settings.public_folder)
 end
 
 def remove_dirs
-  FileUtils.rm_rf(Capybara.app.settings.views)
-  FileUtils.rm_rf(Capybara.app.settings.public_folder)
+  rmdir(Capybara.app.settings.root)
+end
+
+def mkdir(dir)
+  FileUtils.mkdir_p(dir)
+end
+
+def rmdir(dir)
+  FileUtils.rm_rf(dir)
 end
 
 RSpec.configure do |config|

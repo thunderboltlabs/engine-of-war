@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "given a textile template with an image link " do
+describe "given a textile template with an image link" do
   before { create_template("layouts/application.html.haml", "%h1 Layout\n= yield") }
 
   describe "and an image link" do
@@ -53,7 +53,13 @@ describe "given a textile template with an image link " do
       subject { page }
 
       it { should_not have_selector('img[alt]') }
-      it { should have_selector('a[href="http://google.com"] img') }
+      it do
+        show_files
+        puts File.read(Capybara.app.settings.views + "/posts/bar.html.textile")
+        puts File.read(Capybara.app.settings.public_folder + "/images/file/meta.yml")
+        puts page.source
+        should have_selector('a[href="http://google.com"] img')
+      end
     end
   end
 

@@ -7,7 +7,6 @@ class EngineOfWar::App < Sinatra::Base
     config.sass_dir = 'views/css'
   end
 
-  disable :show_exceptions
   set :haml,        format: :html5
   set :scss,        Compass.sass_engine_options
   set :github_info, nil
@@ -34,27 +33,9 @@ class EngineOfWar::App < Sinatra::Base
   end
 
   def self.newrelic_key=(key)
-    load_newrelic(key, name) unless ENV["RACK_ENV"] == "development" or ENV["RACK_ENV"].nil?
-  end
-
-  def load_newrelic(key, name)
-    puts "Loading NewRelic for #{name}"
-    require 'newrelic_rpm'
-    require 'rpm_contrib'
-    NewRelic::Agent.manual_start(monitor_mode: true, 
-                                 license_key: key,
-                                 app_name: name,
-                                 monitor_mode: true,
-                                 log_level: "info",
-                                 log_file_path: "STDOUT",
-                                 transaction_tracer: { enabled: false },
-                                 error_collector: { enabled: true })
-  end
-
-  def render_page_with_layout(page)
-    render_page(page, 
-                layout: "layouts/#{page.layout}", 
-                layout_engine: :haml)
+    unless %w(test development).include?(ENV["RACK_ENV"]) or ENV["RACK_ENV"].nil?
+      load_newrelic(key, name) 
+    end
   end
 
   helpers do
@@ -112,4 +93,25 @@ class EngineOfWar::App < Sinatra::Base
     content_type ext
     render :"#{name}", :layout => false
   end
+
+  def load_newrelic(key, name)
+    puts "Loading NewRelic for #{name}"
+    require 'newrelic_rpm'
+    require 'rpm_contrib'
+    NewRelic::Agent.manual_start(monitor_mode: true, 
+                                 license_key: key,
+                                 app_name: name,
+                                 monitor_mode: true,
+                                 log_level: "info",
+                                 log_file_path: "STDOUT",
+                                 transaction_tracer: { enabled: false },
+                                 error_collector: { enabled: true })
+  end
+
+  def render_page_with_layout(page)
+    render_page(page, 
+                layout: "layouts/#{page.layout}", 
+                layout_engine: :haml)
+  end
+
 end
