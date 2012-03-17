@@ -1,3 +1,5 @@
+ENV['RACK_ENV'] = 'test'
+
 require "bundler/setup"
 require 'rspec'
 require 'capybara/rspec'
@@ -7,8 +9,6 @@ require "engine_of_war.rb"
 
 Capybara.app = EngineOfWar::App
 Capybara.app.set :root,  "/tmp/engine-#{$$}"
-Capybara.app.enable :raise_errors 
-Capybara.app.enable :show_exceptions
 FakeWeb.allow_net_connect = false
 
 def create_template(path, content)

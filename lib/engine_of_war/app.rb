@@ -1,13 +1,9 @@
 class EngineOfWar::App < Sinatra::Base
-  register Padrino::Rendering
-  register Padrino::Helpers
-
   Compass.configuration do |config|
     config.project_path = File.dirname(__FILE__)
     config.sass_dir = 'views/css'
   end
 
-  disable :show_exceptions
   set :haml,        format: :html5
   set :scss,        Compass.sass_engine_options
   set :github_info, nil
@@ -74,8 +70,8 @@ class EngineOfWar::App < Sinatra::Base
     end
   end
 
-  error(500) { haml :"500" }
-  error(404) { haml :"404" }
+  # error(500) { haml :"500" }
+  # error(404) { haml :"404" }
 
   get "/raise_exception_for_testing" do
     raise RuntimeError, "Oh, holy crap!"
